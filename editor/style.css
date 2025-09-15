@@ -1,0 +1,30 @@
+body {
+  font-family: sans-serif;
+  margin: 2rem;
+}
+.editor {
+  display: flex;
+  gap: 2rem;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  gap: 0.5rem;
+}
+.card {
+  border: 1px solid #333;
+  padding: 1rem;
+  width: 200px;
+  min-height: 300px;
+}
+.card img {
+  max-width: 100%;
+  height: auto;
+  display: none;
+}
+.stats {
+  margin-top: 1rem;
+  font-weight: bold;
+  text-align: right;
+}
