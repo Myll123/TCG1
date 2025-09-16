@@ -11,11 +11,21 @@ function update() {
   document.getElementById('preview-def').textContent = defense;
 
   const img = document.getElementById('preview-image');
+  const placeholder = document.querySelector('.preview-card__placeholder');
   if (image) {
     img.src = image;
+    img.alt = name;
     img.style.display = 'block';
+    if (placeholder) {
+      placeholder.classList.add('is-hidden');
+    }
   } else {
     img.style.display = 'none';
+    if (placeholder) {
+      placeholder.classList.remove('is-hidden');
+    }
+    img.removeAttribute('alt');
+    img.removeAttribute('src');
   }
 }
 
