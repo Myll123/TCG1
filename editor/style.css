@@ -82,6 +82,7 @@ button {
 }
 
 .app-header nav a:hover,
+.app-header nav a:focus,
 .app-header nav a:focus-visible {
   color: var(--accent-strong);
 }
@@ -179,6 +180,12 @@ h1 {
   gap: 0.5rem;
 }
 
+.form__group--inline {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+}
+
 .form__label {
   font-weight: 600;
   font-size: 0.95rem;
@@ -195,6 +202,7 @@ h1 {
   transition: border 160ms ease, box-shadow 160ms ease, background 160ms ease;
 }
 
+.form__control:focus,
 .form__control:focus-visible {
   outline: none;
   border-color: rgba(37, 99, 235, 0.6);
@@ -247,6 +255,7 @@ h1 {
 }
 
 .preset-card:hover,
+.preset-card:focus,
 .preset-card:focus-visible {
   border-color: rgba(37, 99, 235, 0.55);
   box-shadow: 0 18px 35px rgba(37, 99, 235, 0.16);
@@ -302,6 +311,7 @@ h1 {
   transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease, color 160ms ease;
 }
 
+.button:focus,
 .button:focus-visible {
   outline: 3px solid rgba(37, 99, 235, 0.35);
   outline-offset: 2px;
