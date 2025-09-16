@@ -119,6 +119,42 @@
         color: var(--text-secondary);
       }
 
+      .hero__highlights {
+        margin: 1.75rem 0 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      .hero__highlights li {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        background: rgba(56, 189, 248, 0.14);
+        border-radius: 18px;
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        box-shadow: 0 12px 28px rgba(56, 189, 248, 0.18);
+      }
+
+      .hero__highlights span {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.72rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: var(--accent-strong);
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 999px;
+        padding: 0.35rem 0.75rem;
+        flex-shrink: 0;
+      }
+
+
       .hero__actions {
         margin-top: 2rem;
         display: flex;
@@ -160,6 +196,18 @@
       .button--ghost:focus {
         background: rgba(15, 23, 42, 0.14);
       }
+
+      .button--outline {
+        background: transparent;
+        border: 1px solid rgba(15, 23, 42, 0.15);
+        color: var(--text-primary);
+      }
+
+      .button--outline:hover,
+      .button--outline:focus {
+        background: rgba(15, 23, 42, 0.08);
+      }
+
 
       .hero__card-preview {
         position: relative;
@@ -281,6 +329,27 @@
         padding: 1.75rem;
         box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
         border: 1px solid rgba(148, 163, 184, 0.18);
+        display: grid;
+        gap: 0.65rem;
+        align-content: start;
+      }
+
+      .feature--accent {
+        border-color: rgba(56, 189, 248, 0.32);
+        box-shadow: 0 18px 36px rgba(56, 189, 248, 0.18);
+      }
+
+      .feature__badge {
+        display: inline-flex;
+        align-items: center;
+        font-size: 0.7rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--accent-strong);
+        background: rgba(56, 189, 248, 0.16);
+        border-radius: 999px;
+        padding: 0.35rem 0.6rem;
+
       }
 
       .feature h3 {
@@ -344,12 +413,20 @@
         <span class="hero__eyebrow">Créez votre univers</span>
         <h1>Donnez vie à vos cartes de jeu en quelques clics</h1>
         <p class="hero__description">
-          Composez vos cartes de jeu de façon intuitive&nbsp;: ajoutez une illustration, personnalisez le nom,
-          la description et ajustez les statistiques. Visualisez le rendu final instantanément avant de partager votre création.
+          Composez vos cartes de jeu de façon intuitive&nbsp;: personnalisez le nom, l'histoire et les statistiques, visualisez
+          le rendu final instantanément, importez vos anciennes créations en glisser-déposer et exportez ou copiez vos decks en
+          un clin d'œil.
         </p>
+        <ul class="hero__highlights" role="list">
+          <li><span>Glisser-déposer</span> Importez un fichier JSON directement dans l'éditeur ou cliquez pour le charger.</li>
+          <li><span>Partage</span> Copiez le JSON généré ou téléchargez-le au format fichier pour votre équipe.</li>
+          <li><span>Brouillon</span> Votre progression est enregistrée localement à chaque modification.</li>
+        </ul>
         <div class="hero__actions">
           <a class="button button--primary" href="editor/index.html">Ouvrir l'éditeur</a>
           <a class="button button--ghost" href="#features">Découvrir les fonctionnalités</a>
+          <a class="button button--outline" href="editor/index.html#export-tools">Importer une création</a>
+
         </div>
       </section>
       <section class="hero__card-preview" aria-label="Exemple de carte générée">
@@ -376,17 +453,23 @@
     <section class="features" id="features">
       <h2 class="features__title">Pourquoi vous allez adorer l'éditeur</h2>
       <div class="feature-grid">
-        <article class="feature">
-          <h3>Interface fluide</h3>
-          <p>Un espace de travail clair avec aperçu instantané pour tester vos idées sans perdre de temps.</p>
+        <article class="feature feature--accent">
+          <span class="feature__badge">Nouveau</span>
+          <h3>Import / Export JSON</h3>
+          <p>Glissez-déposez vos fichiers dans l'éditeur, importez-les depuis l'explorateur ou exportez-les en un clic pour reprendre vos itérations plus tard.</p>
         </article>
         <article class="feature">
-          <h3>Contrôle total</h3>
-          <p>Personnalisez chaque détail&nbsp;: titre, visuel, texte, statistiques. Tout est modifiable à la volée.</p>
+          <h3>Archétypes prêts à jouer</h3>
+          <p>Choisissez un preset — Gardien céleste, Oracle des braises ou Druide sylvestre — puis adaptez-le à votre univers.</p>
+        </article>
+        <article class="feature">
+          <h3>Interface immersive</h3>
+          <p>Un formulaire à panneaux avec aperçu premium, capacité signature et jauges animées pour visualiser chaque détail.</p>
         </article>
         <article class="feature">
           <h3>Partage simplifié</h3>
-          <p>Exportez vos créations ou partagez un lien pour recueillir les retours de vos coéquipiers.</p>
+          <p>Copiez le JSON généré, partagez-le à votre équipe ou téléchargez un fichier tout en profitant de la sauvegarde automatique.</p>
+
         </article>
       </div>
     </section>
