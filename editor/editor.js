@@ -280,6 +280,7 @@ function updateImage(name, subtitle) {
 }
 
 function update() {
+
   const nameInfo = readText('name', DEFAULTS.name);
   const subtitleInfo = readText('subtitle', DEFAULTS.subtitle);
   const setInfo = readText('set', DEFAULTS.set);
@@ -373,6 +374,7 @@ function saveDraftNow(data = getFormData()) {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   } catch (error) {
     // Ignore quota errors silently
+
   }
 }
 
