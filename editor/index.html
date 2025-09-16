@@ -1,29 +1,101 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Card Editor</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <h1>Card Editor</h1>
-  <div class="editor">
-    <form id="cardForm">
-      <label>Name: <input type="text" id="name" /></label>
-      <label>Description:<textarea id="description"></textarea></label>
-      <label>Image URL: <input type="text" id="image" /></label>
-      <label>Attack: <input type="number" id="attack" /></label>
-      <label>Defense: <input type="number" id="defense" /></label>
-    </form>
-    <div class="preview" id="preview">
-      <div class="card">
-        <img id="preview-image" src="" alt="" />
-        <h2 id="preview-name">Card Name</h2>
-        <p id="preview-desc">Card description</p>
-        <div class="stats"><span id="preview-atk">0</span>/<span id="preview-def">0</span></div>
-      </div>
-    </div>
-  </div>
-  <script src="editor.js"></script>
-</body>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Éditeur de cartes — TCG Card Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <a class="app-header__brand" href="../index.html">
+        <span class="app-header__logo">TCG</span>
+        <span class="app-header__text">Card Studio</span>
+      </a>
+      <nav aria-label="Navigation secondaire">
+        <a href="../index.html#features">Fonctionnalités</a>
+        <a href="mailto:contact@example.com">Support</a>
+      </nav>
+    </header>
+
+    <main class="layout" aria-label="Éditeur de cartes">
+      <section class="panel">
+        <h1>Composez votre carte</h1>
+        <p class="panel__lead">
+          Remplissez les champs ci-dessous pour actualiser immédiatement l'aperçu de votre carte.
+        </p>
+
+        <form id="cardForm" class="form">
+          <div class="form__group">
+            <label class="form__label" for="name">Nom de la carte</label>
+            <input class="form__control" type="text" id="name" placeholder="Gardien de l'Aube" />
+          </div>
+
+          <div class="form__group">
+            <label class="form__label" for="description">Description</label>
+            <textarea
+              class="form__control form__control--textarea"
+              id="description"
+              rows="4"
+              placeholder="Incarnez un protecteur ancestral..."
+            ></textarea>
+          </div>
+
+          <div class="form__group">
+            <label class="form__label" for="image">URL de l'image</label>
+            <input class="form__control" type="url" id="image" placeholder="https://..." />
+            <p class="form__hint">Utilisez une image au format vertical pour un meilleur rendu.</p>
+          </div>
+
+          <div class="form__group form__group--inline">
+            <div>
+              <label class="form__label" for="attack">Attaque</label>
+              <input class="form__control" type="number" id="attack" min="0" step="1" placeholder="320" />
+            </div>
+            <div>
+              <label class="form__label" for="defense">Défense</label>
+              <input class="form__control" type="number" id="defense" min="0" step="1" placeholder="280" />
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel panel--preview" aria-live="polite">
+        <div class="preview" id="preview">
+          <div class="preview-card">
+            <div class="preview-card__glow"></div>
+            <div class="preview-card__inner">
+              <div class="preview-card__badge">Édition Alpha</div>
+              <div class="preview-card__art" aria-hidden="true">
+                <img id="preview-image" src="" alt="Illustration de la carte" />
+                <div class="preview-card__placeholder">Aucune image pour le moment</div>
+              </div>
+              <div class="preview-card__content">
+                <h2 id="preview-name">Card Name</h2>
+                <p id="preview-desc">Card description</p>
+              </div>
+              <div class="preview-card__stats" aria-label="Statistiques">
+                <div class="preview-card__stat">
+                  <span class="preview-card__stat-label">ATK</span>
+                  <span id="preview-atk">0</span>
+                </div>
+                <div class="preview-card__stat">
+                  <span class="preview-card__stat-label">DEF</span>
+                  <span id="preview-def">0</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="editor.js"></script>
+  </body>
 </html>
