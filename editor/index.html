@@ -141,9 +141,24 @@
           </div>
 
           <div class="form__actions" id="export-tools">
+            <button type="button" class="button button--ghost" id="resetButton">Réinitialiser</button>
             <button type="button" class="button button--soft" id="importButton">Importer une carte</button>
             <input type="file" id="importInput" accept="application/json" hidden />
+            <button type="button" class="button button--outline" id="copyButton">Copier le JSON</button>
             <button type="button" class="button button--primary" id="exportButton">Exporter la carte</button>
+          </div>
+          <div
+            class="form__dropzone"
+            id="importDropzone"
+            role="button"
+            tabindex="0"
+            aria-label="Glissez-déposez un fichier JSON ou cliquez pour importer une carte"
+          >
+            <div class="form__dropzone-icon" aria-hidden="true">⇪</div>
+            <div class="form__dropzone-text">
+              <strong>Glissez-déposez votre JSON</strong>
+              <span>Déposez un fichier de carte ici ou cliquez pour le sélectionner.</span>
+            </div>
           </div>
           <p class="form__feedback" id="formFeedback" role="status" aria-live="polite"></p>
         </form>

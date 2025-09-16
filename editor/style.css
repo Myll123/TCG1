@@ -277,8 +277,65 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
-  justify-content: flex-end;
+  justify-content: flex-start;
   margin-top: 0.5rem;
+}
+
+.form__dropzone {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  padding: 1rem 1.25rem;
+  border-radius: 18px;
+  border: 1px dashed rgba(37, 99, 235, 0.35);
+  background: rgba(37, 99, 235, 0.08);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+  user-select: none;
+}
+
+.form__dropzone:hover {
+  background: rgba(37, 99, 235, 0.12);
+}
+
+.form__dropzone:focus,
+.form__dropzone:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.35);
+  outline-offset: 2px;
+}
+
+.form__dropzone.is-active {
+  border-color: rgba(37, 99, 235, 0.65);
+  background: rgba(59, 130, 246, 0.12);
+}
+
+.form__dropzone-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: rgba(37, 99, 235, 0.12);
+  color: var(--accent-strong);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.form__dropzone-text {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.form__dropzone-text strong {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.form__dropzone-text span {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
 }
 
 .form__feedback {
@@ -337,6 +394,29 @@ h1 {
 .button--soft:hover,
 .button--soft:active {
   background: rgba(15, 23, 42, 0.12);
+}
+
+.button--ghost {
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  background: transparent;
+  color: var(--text-secondary);
+}
+
+.button--ghost:hover,
+.button--ghost:active {
+  background: rgba(15, 23, 42, 0.08);
+  color: var(--text-primary);
+}
+
+.button--outline {
+  border: 1px solid rgba(37, 99, 235, 0.55);
+  background: transparent;
+  color: var(--accent-strong);
+}
+
+.button--outline:hover,
+.button--outline:active {
+  background: rgba(59, 130, 246, 0.12);
 }
 
 .preview {
@@ -570,6 +650,19 @@ h1 {
 
   .form__actions {
     justify-content: flex-start;
+  }
+}
+
+@media (max-width: 640px) {
+  .form__dropzone {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+
+  .form__dropzone-icon {
+    width: 48px;
+    height: 48px;
   }
 }
 

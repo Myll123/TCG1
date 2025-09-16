@@ -134,6 +134,20 @@ const STAT_MAX = {
   health: 1000,
 };
 
+const DEFAULT_CARD_DATA = {
+  name: DEFAULTS.name,
+  subtitle: DEFAULTS.subtitle,
+  set: DEFAULTS.set,
+  description: DEFAULTS.description,
+  ability: DEFAULTS.ability,
+  rarity: DEFAULTS.rarity,
+  element: DEFAULTS.element,
+  attack: DEFAULTS.attack,
+  defense: DEFAULTS.defense,
+  health: DEFAULTS.health,
+  image: '',
+};
+
 const fieldIds = ['name', 'subtitle', 'set', 'description', 'ability', 'image', 'attack', 'defense', 'health', 'rarity', 'element'];
 const numericFields = new Set(['attack', 'defense', 'health']);
 
@@ -149,6 +163,9 @@ const previewRarity = document.getElementById('preview-rarity');
 const previewElement = document.getElementById('preview-element');
 const previewSet = document.getElementById('preview-set');
 const feedbackEl = document.getElementById('formFeedback');
+const dropzone = document.getElementById('importDropzone');
+const copyButton = document.getElementById('copyButton');
+const resetButton = document.getElementById('resetButton');
 
 const STORAGE_KEY = 'tcg-card-studio:last-card';
 const supportsStorage = (() => {
@@ -435,14 +452,34 @@ function handleExport() {
   }
 }
 
+function isJsonFile(file) {
+  if (!file) {
+    return false;
+  }
+  const type = (file.type || '').toLowerCase();
+  if (type.includes('json')) {
+    return true;
+  }
+  const name = (file.name || '').toLowerCase();
+  return name.endsWith('.json');
+}
+
 function handleImport(file) {
   if (!file) {
+    return;
+  }
+  if (!isJsonFile(file)) {
+    showFeedback('Veuillez sélectionner un fichier JSON valide.', 'error');
     return;
   }
   const reader = new FileReader();
   reader.onload = () => {
     try {
-      const data = JSON.parse(reader.result);
+      const raw = typeof reader.result === 'string' ? reader.result : '';
+      if (!raw) {
+        throw new Error('Empty file');
+      }
+      const data = JSON.parse(raw);
       applyData(data);
       saveDraftNow(getFormData());
       showFeedback('Carte importée avec succès.', 'success');
@@ -456,12 +493,66 @@ function handleImport(file) {
   reader.readAsText(file);
 }
 
+async function copyCardToClipboard() {
+  const json = JSON.stringify(getFormData(), null, 2);
+  try {
+    if (navigator?.clipboard?.writeText) {
+      await navigator.clipboard.writeText(json);
+    } else {
+      let textarea;
+      try {
+        textarea = document.createElement('textarea');
+        textarea.value = json;
+        textarea.setAttribute('readonly', '');
+        textarea.style.position = 'absolute';
+        textarea.style.left = '-9999px';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        const successful = document.execCommand('copy');
+        if (!successful) {
+          throw new Error('Copy command failed');
+        }
+      } finally {
+        if (textarea && textarea.parentNode) {
+          textarea.parentNode.removeChild(textarea);
+        }
+      }
+    }
+    showFeedback('JSON copié dans le presse-papiers.', 'success');
+  } catch (error) {
+    showFeedback("Impossible de copier le JSON.", 'error');
+  }
+}
+
+function resetForm() {
+  const defaults = { ...DEFAULT_CARD_DATA };
+  applyData(defaults);
+  saveDraftNow(defaults);
+  showFeedback('Carte réinitialisée sur le modèle de base.');
+}
+
+function toggleDropzoneState(isActive) {
+  if (!dropzone) {
+    return;
+  }
+  dropzone.classList.toggle('is-active', Boolean(isActive));
+}
+
+function preventDragDefaults(event) {
+  event.preventDefault();
+  event.stopPropagation();
+}
+
 const exportButton = document.getElementById('exportButton');
 const importButton = document.getElementById('importButton');
 const importInput = document.getElementById('importInput');
 
 exportButton?.addEventListener('click', handleExport);
 importButton?.addEventListener('click', () => importInput?.click());
+copyButton?.addEventListener('click', copyCardToClipboard);
+resetButton?.addEventListener('click', resetForm);
 importInput?.addEventListener('change', (event) => {
   const target = event.target;
   const file = target?.files?.[0];
@@ -471,7 +562,54 @@ importInput?.addEventListener('change', (event) => {
   if (target) {
     target.value = '';
   }
+  toggleDropzoneState(false);
 });
+
+dropzone?.addEventListener('click', () => importInput?.click());
+dropzone?.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter' || event.key === ' ') {
+    event.preventDefault();
+    importInput?.click();
+  }
+});
+
+['dragenter', 'dragover'].forEach((eventName) => {
+  dropzone?.addEventListener(eventName, (event) => {
+    preventDragDefaults(event);
+    toggleDropzoneState(true);
+  });
+});
+
+['dragleave', 'dragend'].forEach((eventName) => {
+  dropzone?.addEventListener(eventName, (event) => {
+    preventDragDefaults(event);
+    toggleDropzoneState(false);
+  });
+});
+
+dropzone?.addEventListener('drop', (event) => {
+  preventDragDefaults(event);
+  toggleDropzoneState(false);
+  const file = event.dataTransfer?.files?.[0];
+  if (file) {
+    handleImport(file);
+  }
+});
+
+if (typeof window !== 'undefined') {
+  ['dragover', 'drop'].forEach((eventName) => {
+    window.addEventListener(eventName, (event) => {
+      const hasFiles = event.dataTransfer?.types?.includes('Files');
+      if (!hasFiles) {
+        return;
+      }
+      if (dropzone && (event.target === dropzone || dropzone.contains(event.target))) {
+        return;
+      }
+      event.preventDefault();
+    });
+  });
+}
 
 fieldIds.forEach((id) => {
   const input = document.getElementById(id);
