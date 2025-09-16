@@ -1,29 +1,219 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Card Editor</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <h1>Card Editor</h1>
-  <div class="editor">
-    <form id="cardForm">
-      <label>Name: <input type="text" id="name" /></label>
-      <label>Description:<textarea id="description"></textarea></label>
-      <label>Image URL: <input type="text" id="image" /></label>
-      <label>Attack: <input type="number" id="attack" /></label>
-      <label>Defense: <input type="number" id="defense" /></label>
-    </form>
-    <div class="preview" id="preview">
-      <div class="card">
-        <img id="preview-image" src="" alt="" />
-        <h2 id="preview-name">Card Name</h2>
-        <p id="preview-desc">Card description</p>
-        <div class="stats"><span id="preview-atk">0</span>/<span id="preview-def">0</span></div>
-      </div>
-    </div>
-  </div>
-  <script src="editor.js"></script>
-</body>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Éditeur de cartes — TCG Card Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <a class="app-header__brand" href="../index.html">
+        <span class="app-header__logo">TCG</span>
+        <span class="app-header__text">Card Studio</span>
+      </a>
+      <nav aria-label="Navigation secondaire">
+        <a href="../index.html#features">Fonctionnalités</a>
+        <a href="mailto:contact@example.com">Support</a>
+      </nav>
+    </header>
+
+    <main class="layout" aria-label="Éditeur de cartes">
+      <section class="panel">
+        <h1>Composez votre carte</h1>
+        <p class="panel__lead">
+          Remplissez les champs, appliquez un archétype, importez vos créations précédentes et exportez vos cartes prêtes à
+          jouer en un clic.
+        </p>
+
+        <form id="cardForm" class="form" autocomplete="off">
+          <div class="form__section">
+            <div class="form__section-header">
+              <h2 class="form__section-title">Identité de la carte</h2>
+              <p class="form__section-description">Définissez l'essence de votre héros ou de votre sort signature.</p>
+            </div>
+            <div class="form__grid form__grid--balanced">
+              <div class="form__group">
+                <label class="form__label" for="name">Nom de la carte</label>
+                <input class="form__control" type="text" id="name" value="Gardien de l'Aube" />
+              </div>
+              <div class="form__group">
+                <label class="form__label" for="subtitle">Sous-titre</label>
+                <input class="form__control" type="text" id="subtitle" value="Sentinelle solaire" />
+              </div>
+              <div class="form__group">
+                <label class="form__label" for="set">Extension / Série</label>
+                <input class="form__control" type="text" id="set" value="Édition Alpha" />
+              </div>
+              <div class="form__group">
+                <label class="form__label" for="rarity">Rareté</label>
+                <select class="form__control form__control--select" id="rarity">
+                  <option value="common">Commune</option>
+                  <option value="rare">Rare</option>
+                  <option value="epic">Épique</option>
+                  <option value="legendary" selected>Légendaire</option>
+                </select>
+              </div>
+              <div class="form__group">
+                <label class="form__label" for="element">Affinité élémentaire</label>
+                <select class="form__control form__control--select" id="element">
+                  <option value="arcane">Arcane</option>
+                  <option value="feu">Flamme</option>
+                  <option value="glace">Givre</option>
+                  <option value="nature">Nature</option>
+                  <option value="ombre">Ombre</option>
+                  <option value="lumiere" selected>Lumière</option>
+                </select>
+                <p class="form__hint">L'élément ajuste l'ambiance et les couleurs de votre carte.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form__section">
+            <div class="form__section-header">
+              <h2 class="form__section-title">Illustration & narration</h2>
+              <p class="form__section-description">Décrivez votre personnage, ajoutez une illustration et sa capacité signature.</p>
+            </div>
+            <div class="form__grid">
+              <div class="form__group">
+                <label class="form__label" for="description">Description</label>
+                <textarea class="form__control form__control--textarea" id="description" rows="4">Incarnez un protecteur ancestral et libérez des combos lumineux qui renversent le cours de la partie.</textarea>
+              </div>
+              <div class="form__group">
+                <label class="form__label" for="ability">Capacité signature</label>
+                <textarea class="form__control form__control--textarea" id="ability" rows="3">Déclenche un halo protecteur qui restaure 150 PV aux alliés et double la défense du Gardien pendant un tour.</textarea>
+                <p class="form__hint">Décrivez un effet spécial, un combo ou un passif marquant.</p>
+              </div>
+              <div class="form__group">
+                <label class="form__label" for="image">URL de l'image</label>
+                <input class="form__control" type="url" id="image" placeholder="https://..." />
+                <p class="form__hint">Utilisez une image verticale de 600×800 px minimum pour un rendu optimal.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form__section">
+            <div class="form__section-header">
+              <h2 class="form__section-title">Statistiques & puissance</h2>
+              <p class="form__section-description">Affinez l'équilibrage pour que la carte s'intègre parfaitement à votre deck.</p>
+            </div>
+            <div class="form__grid form__grid--stats">
+              <div class="form__group">
+                <label class="form__label" for="attack">Attaque</label>
+                <input class="form__control" type="number" id="attack" min="0" step="1" value="320" />
+              </div>
+              <div class="form__group">
+                <label class="form__label" for="defense">Défense</label>
+                <input class="form__control" type="number" id="defense" min="0" step="1" value="280" />
+              </div>
+              <div class="form__group">
+                <label class="form__label" for="health">Points de vie</label>
+                <input class="form__control" type="number" id="health" min="0" step="10" value="460" />
+              </div>
+            </div>
+          </div>
+
+          <div class="form__section form__section--presets" id="presets">
+            <div class="form__section-header">
+              <h2 class="form__section-title">Inspiration instantanée</h2>
+              <p class="form__section-description">Chargez un archétype pour démarrer plus vite et adaptez-le à votre univers.</p>
+            </div>
+            <div class="preset-list" role="list">
+              <button type="button" class="preset-card" data-preset="celestial">
+                <span class="preset-card__title">Gardien céleste</span>
+                <span class="preset-card__meta">Mur de lumière • Défense élevée</span>
+              </button>
+              <button type="button" class="preset-card" data-preset="pyromancer">
+                <span class="preset-card__title">Oracle des braises</span>
+                <span class="preset-card__meta">Combo explosif • Attaque dominante</span>
+              </button>
+              <button type="button" class="preset-card" data-preset="wildheart">
+                <span class="preset-card__title">Chuchoteur sylvestre</span>
+                <span class="preset-card__meta">Soins naturels • Endurance accrue</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="form__actions" id="export-tools">
+            <button type="button" class="button button--soft" id="importButton">Importer une carte</button>
+            <input type="file" id="importInput" accept="application/json" hidden />
+            <button type="button" class="button button--primary" id="exportButton">Exporter la carte</button>
+          </div>
+          <p class="form__feedback" id="formFeedback" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section class="panel panel--preview" aria-live="polite">
+        <div class="preview" id="preview">
+          <div class="preview-card" id="preview-card">
+            <div class="preview-card__glow"></div>
+            <div class="preview-card__inner">
+              <div class="preview-card__top">
+                <div class="preview-card__badge" id="preview-set">Édition Alpha</div>
+                <div class="preview-card__chips" aria-label="Traits de la carte">
+                  <span class="preview-chip preview-chip--rarity" id="preview-rarity">Légendaire</span>
+                  <span class="preview-chip preview-chip--element" id="preview-element">Lumière</span>
+                </div>
+              </div>
+              <div class="preview-card__art" aria-hidden="true">
+                <img id="preview-image" src="" alt="Illustration de la carte" />
+                <div class="preview-card__placeholder">Ajoutez une illustration éclatante</div>
+              </div>
+              <div class="preview-card__content">
+                <h2 id="preview-name">Gardien de l'Aube</h2>
+                <p class="preview-card__subtitle" id="preview-subtitle">Sentinelle solaire</p>
+                <p id="preview-desc">
+                  Incarnez un protecteur ancestral et libérez des combos lumineux qui renversent le cours de la partie.
+                </p>
+                <div class="preview-card__ability" id="preview-ability-block">
+                  <h3>Capacité signature</h3>
+                  <p id="preview-ability">
+                    Déclenche un halo protecteur qui restaure 150 PV aux alliés et double la défense du Gardien pendant un
+                    tour.
+                  </p>
+                </div>
+              </div>
+              <div class="preview-card__stats" aria-label="Statistiques">
+                <div class="stat-meter" data-meter="health">
+                  <div class="stat-meter__header">
+                    <span class="stat-meter__label">PV</span>
+                    <span class="stat-meter__value" id="preview-health">460</span>
+                  </div>
+                  <div class="stat-meter__bar" role="presentation">
+                    <span class="stat-meter__fill"></span>
+                  </div>
+                </div>
+                <div class="stat-meter" data-meter="attack">
+                  <div class="stat-meter__header">
+                    <span class="stat-meter__label">ATK</span>
+                    <span class="stat-meter__value" id="preview-atk">320</span>
+                  </div>
+                  <div class="stat-meter__bar" role="presentation">
+                    <span class="stat-meter__fill"></span>
+                  </div>
+                </div>
+                <div class="stat-meter" data-meter="defense">
+                  <div class="stat-meter__header">
+                    <span class="stat-meter__label">DEF</span>
+                    <span class="stat-meter__value" id="preview-def">280</span>
+                  </div>
+                  <div class="stat-meter__bar" role="presentation">
+                    <span class="stat-meter__fill"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="editor.js"></script>
+  </body>
 </html>
