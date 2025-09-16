@@ -1,3 +1,12 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@layer base {
+  body {
+    @apply min-h-screen bg-slate-950 text-slate-100 antialiased;
+    font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  }
+
+  ::selection {
+    @apply bg-sky-500/60 text-white;
+  }
+}

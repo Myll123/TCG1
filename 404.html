@@ -1,12 +1,40 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Noxen Card Studio</title>
+    <title>TCG Card Studio — Redirection</title>
+    <style>
+      body {
+        display: grid;
+        place-items: center;
+        min-height: 100vh;
+        margin: 0;
+        background: #0f172a;
+        color: #e2e8f0;
+        font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      }
+    </style>
+    <script>
+      (function () {
+        var path = window.location.pathname;
+        var base = path.indexOf('/noxen-card-studio/') === 0 ? '/noxen-card-studio/' : '/';
+        var wantsStudio = /editor/i.test(path) || /studio/i.test(path);
+        try {
+          if (wantsStudio) {
+            sessionStorage.setItem('tcg-card-studio:redirect', '#studio');
+          } else {
+            sessionStorage.removeItem('tcg-card-studio:redirect');
+          }
+        } catch (error) {
+          /* ignore storage errors */
+        }
+        var target = base + (wantsStudio ? '#studio' : '');
+        window.location.replace(target);
+      })();
+    </script>
   </head>
-  <body class="bg-gray-100">
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+  <body>
+    <p>Redirection en cours vers TCG Card Studio…</p>
   </body>
 </html>

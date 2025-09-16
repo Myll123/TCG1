@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Card } from '../types';
-import { deserializeSet, serializeSet } from '../utils/serialization';
+import { deserializeCard, deserializeSet, serializeSet } from '../utils/serialization';
 import { seedCards } from '../data/seed';
+import { cloneCard } from '../utils/cardFactory';
 
 const STORAGE_KEY = 'noxen-cards';
 
@@ -11,9 +12,7 @@ export function useCardsStore() {
     return stored ? deserializeSet(stored) : seedCards;
   });
 
-  const [selectedId, setSelectedId] = useState<string | undefined>(
-    () => cards[0]?.id
-  );
+  const [selectedId, setSelectedId] = useState<string | undefined>(() => cards[0]?.id);
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, serializeSet(cards));
@@ -37,19 +36,35 @@ export function useCardsStore() {
   function duplicate(id: string) {
     const orig = cards.find((c) => c.id === id);
     if (orig) {
-      const copy = { ...orig, id: `${orig.id}-copy-${Date.now()}` };
+      const copy = cloneCard(orig, { withNewId: true });
       upsert(copy);
     }
   }
 
   function importSet(json: string) {
     try {
-      const set = deserializeSet(json);
+      const parsed = JSON.parse(json);
+      const set = Array.isArray(parsed)
+        ? deserializeSet(json)
+        : [deserializeCard(json)];
+      if (set.length === 0) return;
       setCards(set);
       setSelectedId(set[0]?.id);
     } catch (e) {
       console.error('Invalid JSON', e);
     }
+  }
+
+  function remove(id: string) {
+    setCards((prev) => {
+      const filtered = prev.filter((c) => c.id !== id);
+      if (filtered.length === 0) {
+        setSelectedId(undefined);
+      } else if (selectedId === id) {
+        setSelectedId(filtered[0].id);
+      }
+      return filtered;
+    });
   }
 
   function exportSet() {
@@ -63,6 +78,7 @@ export function useCardsStore() {
     upsert,
     duplicate,
     importSet,
+    remove,
     exportSet,
   } as const;
 }
